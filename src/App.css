@@ -266,3 +266,224 @@ body {
     padding-bottom: calc(80px + env(safe-area-inset-bottom));
   }
 }
+
+/* ===== NEW PAGES STYLES (Confirm, Terms, Success, Records) ===== */
+
+/* Page Container */
+.page-container {
+  min-height: 100vh;
+  background-color: #f5f5f5;
+  display: flex;
+  flex-direction: column;
+}
+
+.page-container.no-bottom-nav {
+  padding-bottom: 0;
+}
+
+/* Invest Header */
+.invest-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  background-color: #f5f5f5;
+  border-bottom: 1px solid #e8e8e8;
+}
+
+.back-button {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #333;
+  padding: 0;
+  border-radius: 8px;
+  transition: background-color 0.2s;
+}
+
+.back-button:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.page-title {
+  font-size: 17px;
+  font-weight: 600;
+  color: #333;
+  margin: 0;
+  text-align: center;
+  flex: 1;
+}
+
+.header-placeholder {
+  width: 40px;
+}
+
+.header-actions {
+  display: flex;
+  gap: 15px;
+}
+
+/* Step Indicator */
+.step-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  background-color: #f5f5f5;
+  gap: 8px;
+}
+
+.step-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.step-number {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: #e5e5e5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 600;
+  color: #999;
+}
+
+.step-number.active {
+  background-color: #E19C4B;
+  color: #fff;
+}
+
+.step-number.completed {
+  background-color: #4CAF50;
+  color: #fff;
+}
+
+.step-label {
+  font-size: 12px;
+  color: #666;
+}
+
+.step-item.active .step-label {
+  color: #E19C4B;
+  font-weight: 600;
+}
+
+/* Confirm Page Styles */
+.confirm-content {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.summary-section {
+  margin-bottom: 20px;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.summary-card {
+  background: #fff;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* Next Button Fixed */
+.next-button-fixed {
+  width: 100%;
+  height: 52px;
+  border-radius: 26px;
+  border: none;
+  font-size: 17px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background-color: #e0e0e0;
+  color: #999;
+}
+
+.next-button-fixed.active {
+  background-color: #E19C4B;
+  color: #fff;
+}
+
+.next-button-fixed.active:hover {
+  background-color: #d48b3a;
+}
+
+/* Bottom Spacer */
+.bottom-spacer-large {
+  height: 100px;
+  background-color: #f5f5f5;
+}
+
+.bottom-bg-image {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Terms Page */
+.terms-content {
+  flex: 1;
+  padding: 20px;
+  padding-bottom: 120px;
+  overflow-y: auto;
+  background-color: #f5f5f5;
+}
+
+/* Success Page */
+.success-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 40px 20px;
+  text-align: center;
+  background-color: #f5f5f5;
+}
+
+/* Records Page */
+.records-content {
+  flex: 1;
+  padding: 20px;
+  background-color: #f5f5f5;
+}
+
+.record-card {
+  background: white;
+  border-radius: 12px;
+  padding: 15px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  border: 1px solid #f0f0f0;
+}
+
+/* Bottom Summary */
+.bottom-summary {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: white;
+  padding: 20px;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+  max-width: 430px;
+  margin: 0 auto;
+}
