@@ -14,8 +14,9 @@
       // SPA Routing: Restore URL from 404.html redirect
       (function() {
         var redirect = sessionStorage.redirect;
-        delete sessionStorage.redirect;
+        console.log('SPA routing check, redirect:', redirect);
         if (redirect && redirect !== window.location.href) {
+          console.log('Restoring URL:', redirect);
           window.history.replaceState(null, null, redirect);
         }
       })();
