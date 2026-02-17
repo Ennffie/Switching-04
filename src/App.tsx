@@ -1,4 +1,4 @@
-import { HashRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css';
 import MyMPFPage from './pages/MyMPFPage';
 import InvestPage from './pages/InvestPage';

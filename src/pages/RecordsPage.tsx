@@ -67,7 +67,7 @@ const RecordsPage = () => {
           {/* Plan Info */}
           <div style={{ display: 'flex', alignItems: 'center', marginBottom: '15px' }}>
             <img 
-              src="./icons/manulife-logo.png" 
+              src="/Switching-04/icons/manulife-logo.png" 
               alt="宏利" 
               style={{ width: '40px', height: '40px', marginRight: '12px' }} 
             />
