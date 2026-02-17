@@ -15,21 +15,19 @@
       // SPA Routing: Restore URL from 404.html redirect
       (function() {
         var redirect = sessionStorage.redirect;
-        delete sessionStorage.redirect;
         if (redirect) {
-          try {
-            var url = new URL(redirect, window.location.origin);
-            var targetPath = url.pathname;
-            // If we're not at the target path, navigate there
-            if (window.location.pathname !== targetPath) {
-              window.history.replaceState(null, '', targetPath);
-              // Force React Router to pick up the change
-              window.addEventListener('load', function() {
-                window.dispatchEvent(new PopStateEvent('popstate'));
-              });
-            }
-          } catch(e) {
-            console.error('URL restore error:', e);
+          delete sessionStorage.redirect;
+          var url = new URL(redirect);
+          var targetPath = url.pathname;
+          // Only redirect if we're not already there
+          if (targetPath !== '/Switching-04/' && targetPath !== '/Switching-04') {
+            // Set URL
+            window.history.replaceState(null, '', targetPath + url.search + url.hash);
+            // Trigger React Router to pick up the change
+            // Delay to ensure React Router is initialized
+            setTimeout(function() {
+              window.dispatchEvent(new PopStateEvent('popstate', { state: null }));
+            }, 50);
           }
         }
       })();

@@ -5,9 +5,7 @@
   <title>Redirecting...</title>
   <script>
     // SPA Routing Hack for GitHub Pages
-    // Use hash instead of sessionStorage for more reliable redirect
-    var path = window.location.pathname + window.location.search;
-    sessionStorage.redirect = path;
+    sessionStorage.redirect = window.location.href;
     window.location.replace('/Switching-04/');
   </script>
 </head>
