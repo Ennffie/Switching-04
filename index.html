@@ -5,33 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <base href="/Switching-04/">
     <title>我的強積金</title>
+    <script type="module" crossorigin src="./assets/index-CpvJSoev.js"></script>
     <link rel="stylesheet" crossorigin href="./assets/index-aw9UMIBi.css">
     <link rel="stylesheet" href="./assets/sticky.css">
   </head>
   <body>
-    <div id="root">載入中...</div>
-    
-    <script>
-      // SPA Routing: Restore URL from 404.html redirect
-      (function() {
-        var redirect = sessionStorage.redirect;
-        if (redirect) {
-          delete sessionStorage.redirect;
-          var url = new URL(redirect);
-          var targetPath = url.pathname;
-          // Only redirect if we're not already there
-          if (targetPath !== '/Switching-04/' && targetPath !== '/Switching-04') {
-            // Set URL
-            window.history.replaceState(null, '', targetPath + url.search + url.hash);
-            // Trigger React Router to pick up the change
-            // Delay to ensure React Router is initialized
-            setTimeout(function() {
-              window.dispatchEvent(new PopStateEvent('popstate', { state: null }));
-            }, 50);
-          }
-        }
-      })();
-    </script>
-    <script type="module" crossorigin src="./assets/index-CpvJSoev.js"></script>
+    <div id="root"></div>
   </body>
 </html>
