@@ -1,4 +1,4 @@
-/* Sticky Header for Transfer Page */
+/* Sticky Header for Transfer Page (Step 2) */
 .page-header-v37 {
   position: sticky;
   top: 0;
@@ -16,5 +16,25 @@
   padding-top: 10px;
   padding-bottom: 10px;
   /* Optional: Add shadow or border to separate from scrolling content */
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+/* Sticky Header for Select Plan Page (Step 1) */
+.select-plan-header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background-color: #fff;
+  width: 100%;
+}
+
+.step-indicator-new {
+  position: sticky;
+  top: 60px; /* Adjust based on header height */
+  z-index: 999;
+  background-color: #fff;
+  margin-top: 0 !important;
+  padding-top: 10px;
+  padding-bottom: 10px;
   box-shadow: 0 2px 4px rgba(0,0,0,0.05);
 }
