@@ -2,10 +2,19 @@
 <html>
 <head>
   <meta charset="utf-8">
+  <title>我的強積金</title>
   <script>
-    sessionStorage.redirect = location.href;
-    location.replace('/Switching-04/');
+    // SPA Routing: Redirect to index.html with path stored in sessionStorage
+    sessionStorage.redirect = window.location.href;
+    var path = window.location.pathname;
+    if (path.startsWith('/Switching-04/')) {
+      window.location.replace('/Switching-04/');
+    } else {
+      window.location.replace('/');
+    }
   </script>
 </head>
-<body></body>
+<body>
+  <p>Redirecting...</p>
+</body>
 </html>
