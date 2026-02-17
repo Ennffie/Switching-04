@@ -1,0 +1,28 @@
+/* Sticky Header for Transfer Page */
+.page-header-v37 {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background-color: #fff;
+  width: 100%;
+}
+
+.step-indicator-v37 {
+  position: sticky;
+  top: 60px; /* Approximate height of header */
+  z-index: 999;
+  background-color: #fff;
+  margin-top: 0 !important;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.transfer-tabs-v37 {
+  position: sticky;
+  top: 110px; /* header (60) + step (50) */
+  z-index: 998;
+  background-color: #fff;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #eee; /* Ensure visual separation */
+}
