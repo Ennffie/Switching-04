@@ -15,14 +15,6 @@
   margin-top: 0 !important;
   padding-top: 10px;
   padding-bottom: 10px;
-}
-
-.transfer-tabs-v37 {
-  position: sticky;
-  top: 110px; /* header (60) + step (50) */
-  z-index: 998;
-  background-color: #fff;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid #eee; /* Ensure visual separation */
+  /* Optional: Add shadow or border to separate from scrolling content */
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
 }
