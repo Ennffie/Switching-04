@@ -48,7 +48,7 @@ const ConfirmPage = () => {
           </div>
           <div className="summary-card" style={{ background: '#f5f5f5', padding: '15px', borderRadius: '8px' }}>
             <div style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
-              <img src="/Switching-04/icons/manulife-logo.png" alt="宏利" style={{ width: '40px', height: '40px', marginRight: '10px' }} />
+              <img src="./icons/manulife-logo.png" alt="宏利" style={{ width: '40px', height: '40px', marginRight: '10px' }} />
               <div>
                 <div style={{ fontWeight: 'bold' }}>宏利環球精選 (強積金) 計劃</div>
                 <div style={{ fontSize: '12px', color: '#666' }}>成員帳戶號碼：29819644</div>
@@ -104,7 +104,7 @@ const ConfirmPage = () => {
 
       {/* Bottom Spacer */}
       <div className="bottom-spacer-large">
-        <img src="/bottom-bg.png" alt="" className="bottom-bg-image" />
+        <img src="./bottom-bg.png" alt="" className="bottom-bg-image" />
       </div>
     </div>
   );
