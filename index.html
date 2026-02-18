@@ -9,5 +9,15 @@
   </head>
   <body>
     <div id="root"></div>
+    <script>
+      // Handle SPA redirect from 404.html (GitHub Pages)
+      var redirect = sessionStorage.redirect;
+      if (redirect) {
+        sessionStorage.removeItem('redirect');
+        if (redirect !== window.location.href) {
+          window.history.replaceState(null, null, redirect);
+        }
+      }
+    </script>
   </body>
 </html>
