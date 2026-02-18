@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { X, ChevronDown, Monitor, RefreshCw, FileText, User } from 'lucide-react';
 
 interface MenuItem {
@@ -10,6 +11,7 @@ interface MenuItem {
 
 const MyMPFPage = () => {
   const [activeTab, setActiveTab] = useState('my-mpf');
+  const navigate = useNavigate();
 
   const menuItems: MenuItem[] = [
     {
@@ -132,7 +134,16 @@ const MyMPFPage = () => {
       {/* Menu Cards */}
       <div className="menu-cards-container">
         {menuItems.map((item) => (
-          <div key={item.id} className="menu-card">
+          <div 
+            key={item.id} 
+            className="menu-card"
+            onClick={() => {
+              if (item.title === '投資') {
+                navigate('/invest');
+              }
+            }}
+            style={{ cursor: item.title === '投資' ? 'pointer' : 'default' }}
+          >
             <div className="menu-card-icon">{item.icon}</div>
             <div className="menu-card-content">
               <h3 className="menu-card-title">{item.title}</h3>
