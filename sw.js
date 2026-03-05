@@ -1,4 +1,4 @@
-const CACHE_NAME = 'mpf-app-v2';
+const CACHE_NAME = 'mpf-app-v1';
 const urlsToCache = [
   '/',
   '/index.html',
