@@ -1,8 +1,18 @@
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ChevronLeft } from 'lucide-react';
+import { ChevronLeft, X } from 'lucide-react';
 
 const TermsPage = () => {
   const navigate = useNavigate();
+  const [showModal, setShowModal] = useState(false);
+
+  const handleAccept = () => {
+    setShowModal(true);
+    // 3秒後自動轉到成功頁面
+    setTimeout(() => {
+      navigate('/invest/success');
+    }, 3000);
+  };
 
   return (
     <div className="page-container no-bottom-nav">
@@ -68,11 +78,59 @@ const TermsPage = () => {
         </div>
       </div>
 
+      {/* Modal */}
+      {showModal && (
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: 'rgba(0,0,0,0.5)',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          zIndex: 1000
+        }}>
+          <div style={{
+            width: '80%',
+            backgroundColor: 'white',
+            borderRadius: '16px',
+            padding: '24px',
+            textAlign: 'center',
+            position: 'relative'
+          }}>
+            <button 
+              onClick={() => setShowModal(false)}
+              style={{
+                position: 'absolute',
+                top: '12px',
+                right: '12px',
+                background: 'none',
+                border: 'none',
+                color: '#999'
+              }}
+            >
+              <X size={20} />
+            </button>
+            <div style={{ marginBottom: '16px' }}>
+              <img 
+                src="https://ennffie.github.io/Switching-04/Icon-EE-Invest-Fund-Switch.png" 
+                alt="處理中" 
+                style={{ width: '100px', height: '100px', objectFit: 'contain', margin: '0 auto' }} 
+              />
+            </div>
+            <h2 style={{ fontSize: '18px', fontWeight: 'bold', marginBottom: '8px' }}>處理中</h2>
+            <p style={{ fontSize: '14px', color: '#666' }}>請稍候，我們正在處理您的申請。</p>
+          </div>
+        </div>
+      )}
+
       {/* Bottom Buttons */}
       <div className="bottom-summary" style={{ position: 'fixed', bottom: 0, left: 0, right: 0, background: 'white', padding: '20px', boxShadow: '0 -2px 10px rgba(0,0,0,0.1)' }}>
         <button 
           className="next-button-fixed active"
-          onClick={() => navigate('/invest/success')}
+          onClick={handleAccept}
           style={{ width: '100%', marginBottom: '10px' }}
         >
           接受
