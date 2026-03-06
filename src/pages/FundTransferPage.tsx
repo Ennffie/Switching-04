@@ -23,7 +23,7 @@ const FundTransferPage = () => {
 
   // Transfer Out Funds with balance
   const [transferOutFunds, setTransferOutFunds] = useState<Fund[]>([
-    { id: 'out1', name: '預設投資策略', balance: 48246.84, allocation: 0 },
+    { id: 'out1', name: '預設投資策略', balance: 48246.84, allocation: 20 },
     { id: 'out2', name: '宏利MPF保守基金', balance: 0, allocation: 0 },
     { id: 'out3', name: '宏利MPF利息基金', balance: 0, allocation: 0 },
     { id: 'out4', name: '宏利MPF香港債券基金', balance: 0, allocation: 0 },
@@ -118,50 +118,53 @@ const FundTransferPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#f5f5f5] flex flex-col">
-      {/* Header */}
-      <div className="bg-white px-4 py-3 flex items-center border-b border-gray-200">
-        <button 
-          onClick={() => navigate(-1)}
-          className="p-2 -ml-2 hover:bg-gray-100 rounded-full transition-colors"
-        >
-          <ChevronLeft size={24} className="text-gray-700" />
-        </button>
-        <h1 className="flex-1 text-center text-base font-medium text-gray-900">
-          現有帳戶結餘的投資
-        </h1>
-        <div className="w-10" />
-      </div>
+    <div className="min-h-screen bg-[#f5f5f5]">
+      {/* Sticky Header + Step Bar Container */}
+      <div className="sticky top-0 z-50 bg-white">
+        {/* Header */}
+        <div className="px-4 py-3 flex items-center border-b border-gray-200">
+          <button 
+            onClick={() => navigate(-1)}
+            className="p-2 -ml-2 hover:bg-gray-100 rounded-full transition-colors"
+          >
+            <ChevronLeft size={24} className="text-gray-700" />
+          </button>
+          <h1 className="flex-1 text-center text-base font-medium text-gray-900">
+            現有帳戶結餘的投資
+          </h1>
+          <div className="w-10" />
+        </div>
 
-      {/* Step Indicator */}
-      <div className="bg-white px-6 py-4 border-b border-gray-200">
-        <div className="flex items-center justify-center">
-          {/* Step 1 - Completed */}
-          <div className="flex items-center">
-            <div className="w-7 h-7 rounded-full bg-[#e87722] flex items-center justify-center">
-              <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
-              </svg>
+        {/* Step Indicator */}
+        <div className="px-6 py-4 border-b border-gray-200">
+          <div className="flex items-center justify-center">
+            {/* Step 1 - Completed */}
+            <div className="flex items-center">
+              <div className="w-7 h-7 rounded-full bg-[#E67E22] flex items-center justify-center">
+                <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                </svg>
+              </div>
             </div>
-          </div>
-          
-          {/* Line */}
-          <div className="w-12 h-0.5 bg-[#e87722] mx-1" />
-          
-          {/* Step 2 - Active */}
-          <div className="flex items-center">
-            <div className="w-7 h-7 rounded-full bg-[#e87722] flex items-center justify-center text-white text-sm font-medium">
-              2
+            
+            {/* Line */}
+            <div className="w-12 h-0.5 bg-[#E67E22] mx-1" />
+            
+            {/* Step 2 - Active */}
+            <div className="flex items-center">
+              <div className="w-7 h-7 rounded-full bg-[#E67E22] flex items-center justify-center text-white text-sm font-medium">
+                2
+              </div>
             </div>
-          </div>
-          
-          {/* Line */}
-          <div className="w-12 h-0.5 bg-gray-300 mx-1" />
-          
-          {/* Step 3 - Pending */}
-          <div className="flex items-center">
-            <div className="w-7 h-7 rounded-full bg-gray-300 flex items-center justify-center text-gray-500 text-sm font-medium">
-              3
+            
+            {/* Line */}
+            <div className="w-12 h-0.5 bg-gray-300 mx-1" />
+            
+            {/* Step 3 - Pending */}
+            <div className="flex items-center">
+              <div className="w-7 h-7 rounded-full bg-gray-300 flex items-center justify-center text-gray-500 text-sm font-medium">
+                3
+              </div>
             </div>
           </div>
         </div>
@@ -172,7 +175,35 @@ const FundTransferPage = () => {
         <h2 className="text-xl font-bold text-gray-900">基金轉換指示</h2>
       </div>
 
-      {/* Contribution Type Toggle */}
+      {/* Tabs - 轉出/轉入 */}
+      <div className="bg-white px-4 border-b border-gray-200">
+        <div className="flex">
+          <button
+            className={`flex-1 py-3 text-base font-medium relative ${
+              activeTab === 'out' ? 'text-[#E67E22]' : 'text-gray-400'
+            }`}
+            onClick={() => setActiveTab('out')}
+          >
+            轉出
+            {activeTab === 'out' && (
+              <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#E67E22]" />
+            )}
+          </button>
+          <button
+            className={`flex-1 py-3 text-base font-medium relative ${
+              activeTab === 'in' ? 'text-[#E67E22]' : 'text-gray-400'
+            }`}
+            onClick={() => setActiveTab('in')}
+          >
+            轉入
+            {activeTab === 'in' && (
+              <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#E67E22]" />
+            )}
+          </button>
+        </div>
+      </div>
+
+      {/* Contribution Type Toggle - 強制性/自願性供款 */}
       <div className="bg-white px-4 py-3 border-b border-gray-200">
         <div className="flex bg-gray-200 rounded-full p-1">
           <button 
@@ -198,36 +229,8 @@ const FundTransferPage = () => {
         </div>
       </div>
 
-      {/* Tabs */}
-      <div className="bg-white px-4 border-b border-gray-200">
-        <div className="flex">
-          <button
-            className={`flex-1 py-3 text-base font-medium relative ${
-              activeTab === 'out' ? 'text-[#e87722]' : 'text-gray-400'
-            }`}
-            onClick={() => setActiveTab('out')}
-          >
-            轉出
-            {activeTab === 'out' && (
-              <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#e87722]" />
-            )}
-          </button>
-          <button
-            className={`flex-1 py-3 text-base font-medium relative ${
-              activeTab === 'in' ? 'text-[#e87722]' : 'text-gray-400'
-            }`}
-            onClick={() => setActiveTab('in')}
-          >
-            轉入
-            {activeTab === 'in' && (
-              <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#e87722]" />
-            )}
-          </button>
-        </div>
-      </div>
-
       {/* Content Area */}
-      <div className="flex-1 overflow-y-auto">
+      <div className="flex-1">
         {activeTab === 'out' ? (
           /* Transfer Out Content */
           <div className="p-4 space-y-3">
@@ -322,7 +325,7 @@ const FundTransferPage = () => {
       <div className="bg-white border-t border-gray-200 px-4 py-4 safe-area-bottom">
         <div className="flex items-center justify-between mb-4">
           <span className="text-base text-gray-700">總和：</span>
-          <span className={`text-2xl font-bold ${totalAllocation === 100 ? 'text-gray-900' : 'text-[#e87722]'}`}>
+          <span className={`text-2xl font-bold ${totalAllocation === 100 ? 'text-gray-900' : 'text-[#E67E22]'}`}>
             {totalAllocation}%
           </span>
         </div>

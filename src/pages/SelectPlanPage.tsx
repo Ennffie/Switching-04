@@ -1,99 +1,204 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ChevronLeft, ChevronDown } from 'lucide-react';
+import { ChevronLeft, Check } from 'lucide-react';
+
+interface Plan {
+  id: string;
+  name: string;
+  subtitle: string;
+  date: string;
+  accountNumber: string;
+  accountType: string;
+  balance: string;
+  icon: string;
+}
 
 const SelectPlanPage = () => {
   const navigate = useNavigate();
-  const [selectedPlan, setSelectedPlan] = useState<string | null>(null);
+  const [selectedPlan, setSelectedPlan] = useState<string>('aia'); // 預設選中友邦
 
-  const plans = [
-    {
-      id: 'manulife',
-      name: '宏利環保行業計劃',
-      icon: '/icons/manulife-logo.png',
-      iconBg: '#00A651',
-    },
+  const plans: Plan[] = [
     {
       id: 'aia',
       name: '友邦強積金優選計劃',
-      icon: '/icons/aia-logo.png',
-      iconBg: '#E31937',
+      subtitle: '自 15/03/2015 | 成員帳戶號碼：38765432',
+      date: '15/03/2015',
+      accountNumber: '38765432',
+      accountType: '個人帳戶',
+      balance: '$ 89,234.50',
+      icon: './icons/aia-logo-new.jpg',
+    },
+    {
+      id: 'manulife',
+      name: '宏利環球精選（強積金）計劃',
+      subtitle: '自 26/01/2011 | 成員帳戶號碼：29819644',
+      date: '26/01/2011',
+      accountNumber: '29819644',
+      accountType: '個人帳戶',
+      balance: '$ 135,050.05',
+      icon: './icons/manulife-logo-new.jpg',
     },
   ];
 
-  const steps = [
-    { number: 1, label: '選擇計劃', active: true },
-    { number: 2, label: '基金轉換指示', active: false },
-    { number: 3, label: '確認', active: false },
-  ];
+  const handlePlanClick = (planId: string) => {
+    if (planId === 'aia') {
+      setSelectedPlan(planId);
+    }
+    // 宏利按下無反應（不能選擇）
+  };
+
+  const handleNext = () => {
+    if (selectedPlan) {
+      navigate('/invest/fund-transfer');
+    }
+  };
 
   return (
-    <div className="page-container no-bottom-nav">
-      {/* Header */}
-      <div className="invest-header">
-        <button className="back-button" onClick={() => navigate(-1)}>
-          <ChevronLeft size={24} />
-        </button>
-        <h1 className="page-title">基金轉換指示</h1>
-        <div className="header-placeholder"></div>
-      </div>
+    <div className="min-h-screen bg-[#f5f5f5]">
+      {/* Sticky Header + Step Bar Container */}
+      <div className="sticky top-0 z-50 bg-white">
+        {/* Header */}
+        <div className="flex items-center justify-between px-4 py-3">
+          <button 
+            onClick={() => navigate(-1)}
+            className="p-2 -ml-2 text-gray-600"
+          >
+            <ChevronLeft size={24} />
+          </button>
+          <h1 className="text-base font-medium text-gray-900">現有帳戶結餘的投資</h1>
+          <div className="w-8" />
+        </div>
 
-      {/* Step Indicator */}
-      <div className="step-indicator">
-        {steps.map((step, index) => (
-          <div key={index} className={`step-item ${step.active ? 'active' : ''}`}>
-            <div className={`step-number ${step.active ? 'active' : ''}`}>
-              {step.number}
+        {/* Step Bar */}
+        <div className="px-4 py-4 border-b border-gray-200">
+          <div className="flex items-center justify-center">
+            {/* Step 1 - Active */}
+            <div className="flex items-center">
+              <div className="w-7 h-7 rounded-full bg-[#E67E22] flex items-center justify-center">
+                <span className="text-white text-sm font-medium">1</span>
+              </div>
             </div>
-            <span className="step-label">{step.label}</span>
+            
+            {/* Line */}
+            <div className="w-12 h-0.5 bg-gray-300 mx-1" />
+            
+            {/* Step 2 */}
+            <div className="flex items-center">
+              <div className="w-7 h-7 rounded-full bg-gray-300 flex items-center justify-center">
+                <span className="text-gray-500 text-sm">2</span>
+              </div>
+            </div>
+            
+            {/* Line */}
+            <div className="w-12 h-0.5 bg-gray-300 mx-1" />
+            
+            {/* Step 3 */}
+            <div className="flex items-center">
+              <div className="w-7 h-7 rounded-full bg-gray-300 flex items-center justify-center">
+                <span className="text-gray-500 text-sm">3</span>
+              </div>
+            </div>
           </div>
-        ))}
+        </div>
       </div>
 
-      {/* Plan Selection */}
-      <div className="plan-selection">
-        <h2 className="section-title">選擇計劃</h2>
-        
-        <div className="plan-cards">
-          {plans.map((plan) => (
-            <div
-              key={plan.id}
-              className={`plan-card ${selectedPlan === plan.id ? 'selected' : ''}`}
-              onClick={() => setSelectedPlan(plan.id)}
-            >
-              <div 
-                className="plan-card-icon"
-                style={{ backgroundColor: plan.iconBg }}
+      <div className="px-4 py-6">
+        {/* Title */}
+        <h2 className="text-xl font-bold text-gray-900 mb-1">選擇計劃及帳戶</h2>
+        <p className="text-gray-600 text-sm mb-4">請從下方選項中選擇</p>
+
+        {/* Reminder Banner */}
+        <div className="bg-[#FFF5F0] border border-[#FFE0D0] rounded-lg px-4 py-3 mb-4">
+          <p className="text-sm">
+            <span className="text-[#E67E22] font-medium">提醒你：</span>
+            <span className="text-[#E67E22]">強積金屬長線投資</span>
+          </p>
+        </div>
+
+        {/* Plan Cards */}
+        <div className="space-y-4">
+          {plans.map((plan) => {
+            const isSelected = selectedPlan === plan.id;
+            const isClickable = plan.id === 'aia'; // 只有友邦可以點擊
+            
+            return (
+              <div
+                key={plan.id}
+                onClick={() => isClickable && handlePlanClick(plan.id)}
+                className={`
+                  bg-white rounded-lg p-4 border-2 transition-all
+                  ${isSelected ? 'border-[#E67E22]' : 'border-gray-200'}
+                  ${isClickable ? 'cursor-pointer' : 'cursor-default'}
+                `}
               >
-                <img src={plan.icon} alt="" className="plan-logo" />
+                {/* Header Row */}
+                <div className="flex items-start justify-between mb-3">
+                  <div className="flex items-center">
+                    <img 
+                      src={plan.icon} 
+                      alt={plan.name}
+                      className="w-10 h-10 object-contain mr-3"
+                    />
+                    <div>
+                      <h3 className="text-base font-medium text-gray-900">{plan.name}</h3>
+                      <p className="text-xs text-gray-500">{plan.subtitle}</p>
+                    </div>
+                  </div>
+                  
+                  {/* Checkmark for selected */}
+                  {isSelected && (
+                    <div className="w-6 h-6 rounded-full bg-[#E67E22] flex items-center justify-center flex-shrink-0">
+                      <Check size={14} className="text-white" />
+                    </div>
+                  )}
+                </div>
+
+                {/* Details */}
+                <div className="space-y-2">
+                  <div className="flex justify-between">
+                    <span className="text-sm text-gray-600">帳戶類別</span>
+                    <span className="text-sm text-gray-900">{plan.accountType}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-sm text-gray-600">帳戶結餘（港幣）</span>
+                    <span className="text-sm font-medium text-gray-900">{plan.balance}</span>
+                  </div>
+                </div>
+
+                {/* Account Details Link */}
+                <div className="mt-3">
+                  <button 
+                    className="text-sm text-blue-600 hover:text-blue-700"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    帳戶詳情
+                  </button>
+                </div>
               </div>
-              <div className="plan-card-content">
-                <span className="plan-name">{plan.name}</span>
-                <ChevronDown 
-                  size={20} 
-                  className={`plan-arrow ${selectedPlan === plan.id ? 'rotated' : ''}`}
-                />
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
 
       {/* Bottom Button */}
-      <div className="bottom-button-container">
-        <button 
-          className={`next-button ${selectedPlan ? 'active' : 'disabled'}`}
-          onClick={() => selectedPlan && navigate('/invest/fund-transfer')}
+      <div className="fixed bottom-0 left-0 right-0 bg-white p-4 border-t border-gray-200">
+        <button
+          onClick={handleNext}
           disabled={!selectedPlan}
+          className={`
+            w-full py-3 rounded-lg text-base font-medium transition-all
+            ${selectedPlan 
+              ? 'bg-[#1e3a5f] text-white' 
+              : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+            }
+          `}
         >
           下一步
         </button>
       </div>
 
-      {/* Bottom Spacer */}
-      <div className="bottom-spacer">
-        <img src="/bottom-bg.png" alt="" className="bottom-bg-image" />
-      </div>
+      {/* Bottom Spacer for fixed button */}
+      <div className="h-20" />
     </div>
   );
 };
