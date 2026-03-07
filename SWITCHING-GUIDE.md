@@ -586,6 +586,105 @@ git checkout main
 
 ---
 
-*最後更新：2026-03-07*  
+---
+
+## 💡 2026-03-08 心得記錄（TermsPage 滾動激活問題）
+
+### 問題：「接受」按鈕滾動到底激活功能
+
+**需求：**
+- 用戶必須滾動到條款最底，「接受」按鈕先會由灰色變成可撳（深藍色）
+- 支援 iOS Safari（Enfield 主要用 iPhone）
+
+**挑戰：**
+iOS Safari 嘅 `scroll` event 只係喺用戶放手（touch end）時先觸發，唔似桌面瀏覽器會持續觸發。
+
+**嘗試過嘅方法：**
+
+| 嘗試 | 方法 | 結果 |
+|------|------|------|
+| 1 | `scroll` event listener | ❌ iOS Safari 唔觸發 |
+| 2 | `setInterval` 定時檢查 `scrollTop` | ❌ 一開始就誤判為滾到底 |
+| 3 | `scrollTop > 0 && remaining < 100` | ❌ 有時檢測唔到 |
+| 4 | **IntersectionObserver** | ✅ **成功！** |
+
+**最終解決方案（IntersectionObserver）：**
+
+```typescript
+const TermsPage = () => {
+  const [canAccept, setCanAccept] = useState(false);
+  const bottomRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    // 初始狀態：disabled
+    setCanAccept(false);
+
+    // 用 IntersectionObserver 檢測底部標記
+    if (bottomRef.current) {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            // 當底部元素可見時激活
+            if (entry.isIntersecting) {
+              setCanAccept(true);
+            }
+          });
+        },
+        {
+          threshold: 0.1,        // 10% 可見就觸發
+          rootMargin: '0px 0px -50px 0px'  // 提前 50px 觸發
+        }
+      );
+
+      observer.observe(bottomRef.current);
+
+      return () => {
+        observer.disconnect();
+      };
+    }
+  }, []);
+
+  return (
+    <div>
+      {/* 可滾動內容 */}
+      <div className="overflow-y-auto">
+        {/* ... 條款內容 ... */}
+        
+        {/* 底部標記 - 用嚟檢測是否滾到最底 */}
+        <div ref={bottomRef} className="h-10 w-full" />
+      </div>
+
+      {/* 接受按鈕 */}
+      <button 
+        disabled={!canAccept}
+        className={canAccept ? 'bg-blue-600' : 'bg-gray-300'}
+      >
+        接受
+      </button>
+    </div>
+  );
+};
+```
+
+**關鍵要點：**
+1. **底部標記元素** — 喺可滾動內容最尾加個 `<div ref={bottomRef}>`
+2. **IntersectionObserver** — 監測呢個標記係咪進入視口
+3. **threshold: 0.1** — 10% 可見就觸發（提早激活）
+4. **rootMargin** — 負數值可以提前觸發（`-50px` 即係距離底部 50px 就激活）
+5. **disconnect** — 組件卸載時清理 observer
+
+**為什麼 IntersectionObserver 好過 scroll event：**
+- ✅ 唔依賴 `scroll` event（iOS Safari 兼容）
+- ✅ 性能更好（瀏覽器優化過）
+- ✅ 準確檢測元素可見性
+- ✅ 支援 `rootMargin` 提前/延遲觸發
+
+**相關版本：**
+- Tag: `v2026.03.08`
+- 檔案：`src/pages/TermsPage.tsx`
+
+---
+
+*最後更新：2026-03-08*  
 *建立者：Luna (Kimi K2.5)*  
 *目的：讓任何 AI 都能無縫接手 Switching App 開發，即使我斷片都能繼續*
