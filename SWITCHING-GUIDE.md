@@ -166,6 +166,184 @@ useEffect(() => {
 
 ---
 
+## 🖤 黑畫面（Black Screen）疑難排解
+
+### 症狀 1：頁面完全空白/黑屏
+**可能原因：**
+
+#### A. BrowserRouter（最常見！）
+```
+錯誤特徵：
+- 頁面空白
+- Console 顯示 404
+- URL 係 /invest 但無 #
+
+解決：改用 HashRouter
+```
+
+#### B. vite.config.ts base 設定錯誤
+```typescript
+// ❌ 錯誤：base 設定唔啱
+export default defineConfig({
+  base: '/',           // 錯！
+  // 或者完全唔設 base
+})
+
+// ✅ 正確：必須同 Repo 名一致
+export default defineConfig({
+  base: '/Switching-04/',  // Repo 名叫 Switching-04
+})
+```
+
+#### C. Build 失敗但強行部署
+```
+錯誤特徵：
+- npm run build 有 error 但無視
+- dist 文件夾不完整
+
+解決：確保 build 成功先部署
+```
+
+#### D. React Error（白屏但 Console 有錯）
+```
+錯誤特徵：
+- 頁面白屏/黑屏
+- Console 顯示 React error
+
+解決：
+1. 檢查 console 錯誤信息
+2. 常見：import 錯誤、undefined 變數、syntax error
+3. 本地測試：npm run dev 先確保無錯
+```
+
+---
+
+## 🖼️ 圖片/Icon 顯示錯誤
+
+### 症狀 2：圖片顯示唔到/破圖
+
+#### A. 路徑問題（最常見！）
+```html
+<!-- ❌ 錯誤：缺少 base path -->
+<img src="/icons/logo.jpg" />
+
+<!-- ❌ 錯誤：用相對路徑 -->
+<img src="../icons/logo.jpg" />
+
+<!-- ✅ 正確：絕對路徑 + base path -->
+<img src="/Switching-04/icons/logo.jpg" />
+
+<!-- ✅ 最佳：用 import -->
+import logo from '/icons/logo.jpg';
+<img src={logo} />
+```
+
+#### B. 圖片未加入 Git（極常見！）
+```
+錯誤特徵：
+- 本地睇到，GitHub Pages 睇唔到
+- 404 錯誤
+
+原因：圖片放咗喺 public/ 但未 git add
+
+✅ 必做步驟（不要再漏！）：
+1. cp 圖片.jpg public/新圖片.jpg
+2. git add public/新圖片.jpg      ← 最容易漏！
+3. git commit -m "Add 新圖片"
+4. git push origin main
+5. rm -rf dist && npm run build
+6. cd dist && git init && git add . && git commit -m "Deploy"
+7. git push --force ... gh-pages
+8. 等 1-5 分鐘 CDN 同步
+```
+
+#### C. CDN 緩存延遲
+```
+錯誤特徵：
+- 已經 push 但都係睇唔到
+- 過咗 10 分鐘先睇到
+
+解決：
+1. 等 1-5 分鐘
+2. 硬刷新：Cmd+Shift+R (Mac) / Ctrl+F5 (Windows)
+3. 驗證：curl -I https://ennffie.github.io/Switching-04/圖片名.jpg
+```
+
+#### D. 大小寫問題（Mac vs Linux）
+```
+錯誤特徵：
+- Mac 本地睇到，GitHub Pages 睇唔到
+
+原因：
+- Mac 唔分大小寫（logo.JPG = logo.jpg）
+- GitHub Pages 分大小寫
+
+❌ logo.JPG
+❌ Logo.jpg
+✅ logo.jpg  （必須完全一致）
+```
+
+#### E. 圖片格式問題
+```
+錯誤特徵：
+- 圖片位置正確但顯示破圖
+
+解決：
+- 確保圖片係有效格式（jpg, png, svg）
+- 嘗試喺瀏覽器直接開圖片 URL 測試
+- 檢查圖片是否損壞
+```
+
+---
+
+## 🔧 其他常見錯誤
+
+### 錯誤：CSS 樣式唔見咗
+```
+可能原因：
+1. Tailwind 無正確 build
+2. Custom CSS 被覆蓋
+3. CSS 文件路徑錯誤
+
+解決：
+1. 檢查 tailwind.config.js
+2. 確保 CSS import 正確
+3. 考慮用 JS inject CSS 方法（見 DESIGN.md）
+```
+
+### 錯誤：Button 無反應
+```
+可能原因：
+1. onClick 無綁定
+2. disabled 狀態
+3. 事件冒泡問題
+
+解決：
+1. 檢查 console 有無 error
+2. 確保 onClick={handleClick} 正確
+3. 檢查 disabled={false}
+```
+
+### 錯誤：頁面跳轉後位置唔啱
+```
+解決：
+每個 page 組件加：
+useEffect(() => {
+  window.scrollTo(0, 0);
+}, []);
+```
+
+### 錯誤：iOS Safari 滾動問題
+```
+症狀：滾動唔順、檢測唔到到底
+
+解決：
+用 setInterval 方法（見核心教訓第5點）
+唔好用 scroll event
+```
+
+---
+
 ## 🎨 設計規範
 
 ### 顏色系統
@@ -330,14 +508,67 @@ git checkout main
 每次修改前必須檢查：
 
 - [ ] vite.config.ts 入面 `base` 設定正確
+- [ ] 用 HashRouter 唔係 BrowserRouter
 - [ ] 新圖片已經 `git add` + `commit` + `push`
-- [ ] 新頁面已加 `window.scrollTo(0, 0)`
-- [ ] iOS Safari 相關頁面已加 `setInterval` 滾動檢測
-- [ ] 按鈕顏色跟隨規範（一般=橙色，主要行動=深藍色）
-- [ ] Build 成功 (`npm run build` 無錯誤)
+- [ ] npm run build 無錯誤
 - [ ] Deploy 後驗證所有圖片正常顯示
 - [ ] 更新 CHANGELOG.md
 - [ ] 打 tag 備份 (`git tag vYYYYMMDD-N`)
+
+---
+
+## 🚨 斷片急救（如果我失憶了）
+
+### 給新 AI 的緊急指南
+
+> **如果你係新接手嘅 AI，而我（Luna）突然「斷片」，請立即：**
+
+#### 第一步：讀取記憶
+```
+1. 讀取 MEMORY.md（長期記憶）
+2. 讀取 USER.md（用戶偏好）
+3. 讀取今日日誌 memory/YYYY-MM-DD.md
+4. 讀取呢份 SWITCHING-GUIDE.md
+```
+
+#### 第二步：確認項目狀態
+```
+1. 檢查 GitHub Repo：https://github.com/Ennffie/Switching-04
+2. 睇最新 commit 同 tag
+3. 檢查 GitHub Pages 是否正常運作
+4. 問 Enfield：「你而家想做咩？有咩問題？」
+```
+
+#### 第三步：常見問題快速診斷
+
+| 用戶講 | 可能問題 | 查看章節 |
+|--------|----------|----------|
+| 「黑畫面/空白」 | BrowserRouter 或 base path 錯 | 黑畫面疑難排解 |
+| 「圖片睇唔到」 | 路徑錯誤或未 git add | 圖片顯示錯誤 |
+| 「Button 無反應」 | onClick 或 disabled 問題 | 其他常見錯誤 |
+| 「iOS 有問題」 | 滾動檢測唔啱 | 核心教訓第5點 |
+
+#### 第四步：必須記住嘅事
+
+**關於 Enfield：**
+- 名：Enfield Law
+- 職位：UXUI Manager @ PCCW Solutions
+- 稱呼：Bro
+- 語言：廣東話、繁體字
+- 住：長洲，返工：銅鑼灣
+- 設備：主要用 iPhone（必須測試 Safari）
+- 偏好：每次修改前通知「將會做乜」，執行中通知「依家做乜」
+
+**關於項目：**
+- Switching-04：MPF 基金轉換（主要項目）
+- enrolment-01：MPF 帳戶登記
+- 技術：React + TypeScript + Vite + GitHub Pages
+- 關鍵：HashRouter、base path、iOS 測試
+
+**關於安全：**
+- 記憶文件係 Private Repo：Ennffie/luna-memory
+- 敏感資料唔好公開分享
+- 重要改動前必須打 tag
 
 ---
 
@@ -350,9 +581,11 @@ git checkout main
 > 3. **唔好假設** — 有懷疑就問，唔好憑空推測
 > 4. **備份優先** — 做任何大改動前先打 tag
 > 5. **測試 iOS** — Enfield 主要用 iPhone，必須測試 Safari
+> 6. **講廣東話** — Enfield 鍾意用廣東話溝通
+> 7. **保持透明** — 執行前講「將會做乜」，執行中講「依家做乜」
 
 ---
 
 *最後更新：2026-03-07*  
 *建立者：Luna (Kimi K2.5)*  
-*目的：讓任何 AI 都能無縫接手 Switching App 開發*
+*目的：讓任何 AI 都能無縫接手 Switching App 開發，即使我斷片都能繼續*
